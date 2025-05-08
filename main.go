@@ -4,8 +4,13 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/andrade-bruno/hemslay-api/initializers"
 	"github.com/gin-gonic/gin"
 )
+
+func init() {
+	initializers.LoadEnvVariables()
+}
 
 func main() {
 	router := gin.Default()
