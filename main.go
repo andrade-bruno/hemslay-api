@@ -18,6 +18,7 @@ func main() {
 
 	router.GET("/healthcheck", controllers.HealthCheck)
 	router.GET("/posts", controllers.IndexPosts)
+	router.GET("/posts/:id", controllers.GetPost)
 	router.POST("/posts", controllers.CreatePost)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
