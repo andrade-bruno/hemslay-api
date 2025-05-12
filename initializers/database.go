@@ -10,6 +10,9 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+var err error
+
 func ConnectDb() {
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -19,10 +22,10 @@ func ConnectDb() {
 
 	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%v?database=%s", user, password, host, port, database)
 
-	_, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatal("failed to connect database")
+		log.Fatal("Failed to connect database")
 	}
 
 	fmt.Println("Database connected!")
