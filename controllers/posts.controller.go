@@ -92,3 +92,23 @@ func UpdatePost(c *gin.Context) {
 		"data": post,
 	})
 }
+
+func DeletePost(c *gin.Context) {
+	id := c.Param("id")
+
+	var post models.Post
+	output := initializers.DB.First(&post, id)
+
+	if output.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": fmt.Sprintf("Post #%s not found", id),
+		})
+		return
+	}
+
+	initializers.DB.Delete(&post)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": fmt.Sprintf("Post #%s deleted", id),
+	})
+}
