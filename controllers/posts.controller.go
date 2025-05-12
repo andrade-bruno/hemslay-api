@@ -29,3 +29,19 @@ func CreatePost(c *gin.Context) {
 		"data":         post,
 	})
 }
+
+func IndexPosts(c *gin.Context) {
+	var posts []models.Post
+	initializers.DB.Find(&posts)
+
+	if len(posts) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "No posts found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": posts,
+	})
+}
