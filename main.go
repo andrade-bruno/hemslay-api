@@ -17,9 +17,11 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/healthcheck", controllers.HealthCheck)
+
 	router.GET("/posts", controllers.IndexPosts)
 	router.GET("/posts/:id", controllers.GetPost)
 	router.POST("/posts", controllers.CreatePost)
+	router.PUT("/posts/:id", controllers.UpdatePost)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 

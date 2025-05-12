@@ -25,7 +25,7 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"rowsAffected": output.RowsAffected,
 		"data":         post,
 	})
@@ -58,6 +58,35 @@ func GetPost(c *gin.Context) {
 		})
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": post,
+	})
+}
+
+func UpdatePost(c *gin.Context) {
+	id := c.Param("id")
+
+	var post models.Post
+	output := initializers.DB.First(&post, id)
+
+	if output.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": fmt.Sprintf("Post with ID %s not found", id),
+		})
+		return
+	}
+
+	var body struct {
+		Body  string
+		Title string
+	}
+	c.Bind(&body)
+
+	initializers.DB.Model(&post).Updates(models.Post{
+		Title: body.Title,
+		Body:  body.Body,
+	})
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": post,
